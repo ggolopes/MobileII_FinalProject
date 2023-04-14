@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddTransactionActivity">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
 
     <LinearLayout
         android:id="@+id/layoutAddTransac"
@@ -31,8 +37,6 @@
                 android:id="@+id/tvAddTransacTypeTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:paddingTop="5dp"
                 android:text="Category Type:" />
 
             <RadioGroup
@@ -40,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:padding="15dp"
+                android:padding="5dp"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -50,6 +54,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="0.5"
                     android:text="@string/radio_income"
+                    android:onClick="ChangeCategoryType"
                     android:textSize="20dp" />
 
                 <RadioButton
@@ -59,6 +64,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="0.5"
                     android:text="@string/radio_expense"
+                    android:onClick="ChangeCategoryType"
                     android:textSize="20dp" />
 
             </RadioGroup>
@@ -75,8 +81,7 @@
                 android:id="@+id/tvAddTransacCatoegoryTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:paddingTop="5dp"
+                android:textSize="12dp"
                 android:text="Category:" />
 
             <Spinner
@@ -97,8 +102,7 @@
                 android:id="@+id/tvAddTransacValueTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:paddingTop="5dp"
+                android:textSize="12dp"
                 android:text="Value:" />
 
             <EditText
@@ -106,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="textPersonName"
+                android:inputType="numberDecimal"
                 android:hint="Value" />
 
         </LinearLayout>
@@ -121,8 +125,7 @@
                 android:id="@+id/tvAddTransacDescriptionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:paddingTop="5dp"
+                android:textSize="12dp"
                 android:text="Description:" />
 
             <EditText
@@ -145,14 +148,30 @@
                 android:id="@+id/tvAddTransacDateTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:paddingTop="10dp"
+                android:textSize="12dp"
                 android:text="Date:" />
+
             <CalendarView
                 android:id="@+id/calendarViewAddTransacDate"
                 android:layout_width="match_parent"
-                android:layout_height="292dp"
-                android:layout_weight="1" />
+                android:layout_height="330dp"
+                android:layout_weight="0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutAddTransacMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvAddTransacMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -160,15 +179,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
+            android:layout_marginBottom="40dp"
             android:orientation="vertical">
+
             <Button
                 android:id="@+id/btnAddTransaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"
+                android:onClick="DoAddTransaction"
                 android:text="Add Transaction" />
         </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

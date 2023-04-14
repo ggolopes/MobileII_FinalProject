@@ -43,8 +43,9 @@ public class LoginActivity extends AppCompatActivity {
             boolean userLogged = ((MyMoneyTrackerApp)getApplication()).LoginUser(userName, password);
             if (userLogged){
                 // Login Successfull
+                int userId = ((MyMoneyTrackerApp)getApplication()).GetUserId(userName);
                 Intent intentMain = new Intent(this, MainActivity.class);
-                intentMain.putExtra("UserId", ((MyMoneyTrackerApp)getApplication()).GetUserId(userName));
+                intentMain.putExtra("UserId", ("" + userId));
                 startActivity(intentMain);
             } else { // User NOT LOGGED IN
                 tvSpace.setText("Wrong User and/or Password.");

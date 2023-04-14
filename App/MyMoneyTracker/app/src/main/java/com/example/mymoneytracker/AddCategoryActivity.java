@@ -51,7 +51,7 @@ public class AddCategoryActivity extends AppCompatActivity {
             // There isn't a type radio button selected
             tvAddCategoryMessage.setText("Please select a transaction type.");
         } else { // there is a type radio button selectd
-            String description = editTextDescription.toString();
+            String description = editTextDescription.getText().toString();
             if (description.isEmpty()){
                 // The description is EMPTY
                 tvAddCategoryMessage.setText("Please enter the transaction description.");
