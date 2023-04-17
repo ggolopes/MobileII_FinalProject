@@ -118,5 +118,13 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    @Override
+    protected void onStop() {
+        startService(new Intent(getApplicationContext(), NotificationService.class));
+        super.onStop();
+    }
+
+
 }
 

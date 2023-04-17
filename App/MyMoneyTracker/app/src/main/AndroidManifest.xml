@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".MyMoneyTrackerApp"
         android:allowBackup="true"
@@ -14,6 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMoneyTracker"
         tools:targetApi="31">
+        <service
+            android:name=".NotificationService"
+            android:enabled="true"
+            android:exported="false"></service>
+
         <activity
             android:name=".AllTransactionsActivity"
             android:exported="false" />
