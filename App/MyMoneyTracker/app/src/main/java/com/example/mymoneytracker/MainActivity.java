@@ -93,8 +93,9 @@ public class MainActivity extends AppCompatActivity {
 
         switch(item.getItemId()){
 
-            case R.id.menu_home:
-                //startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            case R.id.menu_currency:
+                Intent currencyIntent = new Intent(this, CurrencyRatesActivity.class);
+                startActivity(currencyIntent);
                 break;
             case R.id.menu_statement:
                 Intent AllTransactionsIntent = new Intent(this, AllTransactionsActivity.class);

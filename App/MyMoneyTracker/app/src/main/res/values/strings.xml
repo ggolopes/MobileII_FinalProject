@@ -3,7 +3,7 @@
     <string name="app_title">MyMoneyTracker App</string>
 
     <!-- Menu-->
-    <string name="menu_home">Home</string>
+    <string name="menu_currency">Currency Rates</string>
     <string name="menu_statement">Statements</string>
     <string name="menu_transaction">Add Transaction</string>
     <string name="menu_category">Add Category</string>
@@ -12,5 +12,12 @@
     <!-- Add transaction page-->
     <string name="radio_income">Income</string>
     <string name="radio_expense">Expense</string>
+    <string name="radio_usd">US Dolar</string>
+    <string name="radio_cad">Canadian Dolar</string>
+    <string name="radio_brl">Brazilian Real</string>
+    <string name="radio_inr">Indian Rupee</string>
+    <string name="radio_cny">Chinese Yuan</string>
+    <string name="currency_converter">Currency Converter</string>
+    <string name="currency_value">Current rate value</string>
 
 </resources>
