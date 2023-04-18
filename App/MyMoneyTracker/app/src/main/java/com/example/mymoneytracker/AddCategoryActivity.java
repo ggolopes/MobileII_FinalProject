@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class AddCategoryActivity extends AppCompatActivity {
 
@@ -79,9 +82,20 @@ public class AddCategoryActivity extends AppCompatActivity {
                 String catDescription = editTextDescription.getText().toString();
                 ((MyMoneyTrackerApp)getApplication()).AddCategory(type, catDescription);
                 String msg = "The category \"" + catDescription + "\" was added.";
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar.make(view, msg, Snackbar.LENGTH_LONG)
+                        .setAction("Back to Main Screen", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ClearFieldsAddCategory();
+                                finish();
+                            }
+                        });
+                snackbar.setActionTextColor(Color.BLUE);
+                snackbar.show();
+
+//                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 ClearFieldsAddCategory();
-                finish();
+//                finish();
             }
         }
     }

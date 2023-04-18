@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,8 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -116,9 +119,19 @@ public class AddTransactionActivity extends AppCompatActivity implements Adapter
                     transacCategory,
                     Double.parseDouble(editTextAddTransacValue.getText().toString())
                     );
-            Toast.makeText(this, "The transaction was added to the database.", Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar.make(view,"The transaction was added to the database.", Snackbar.LENGTH_LONG)
+                            .setAction("Back to Main Screen", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    ClearFieldsAddTransaction();
+                                    finish();
+                                }
+                            });
+            snackbar.setActionTextColor(Color.BLUE);
+            snackbar.show();
+//            Toast.makeText(this, "The transaction was added to the database.", Toast.LENGTH_SHORT).show();
             ClearFieldsAddTransaction();
-            finish();
+//            finish();
         }
     }
 
