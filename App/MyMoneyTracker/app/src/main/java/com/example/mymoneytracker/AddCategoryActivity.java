@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,9 @@ public class AddCategoryActivity extends AppCompatActivity {
     private RadioButton rBtnAddCategoryExpense;
     private TextView tvAddCategoryMessage;
 
+    private SharedPreferences sharedPreferences;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +32,7 @@ public class AddCategoryActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        sharedPreferences = getSharedPreferences("LastInput", MODE_PRIVATE);
 
         editTextDescription = findViewById(R.id.editTextAddCategoryDescription);
         rBtnAddCategoryIncome = findViewById(R.id.rBtnAddCategoryIncome);
@@ -40,9 +45,17 @@ public class AddCategoryActivity extends AppCompatActivity {
 
         if(item.getItemId() == android.R.id.home){
             //go back to your activity / exiting the SettingsActivity
+            ClearFieldsAddCategory();
             onBackPressed();
         }
         return true;
+    }
+
+    private void ClearFieldsAddCategory() {
+        editTextDescription.setText("");
+        rBtnAddCategoryIncome.setChecked(false);
+        rBtnAddCategoryExpense.setChecked(false);
+        tvAddCategoryMessage.setText("");
     }
 
     public void DoAddCategory(View view) {
@@ -67,8 +80,38 @@ public class AddCategoryActivity extends AppCompatActivity {
                 ((MyMoneyTrackerApp)getApplication()).AddCategory(type, catDescription);
                 String msg = "The category \"" + catDescription + "\" was added.";
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                ClearFieldsAddCategory();
                 finish();
             }
         }
     }
+
+    @Override
+    protected void onPause() {
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("catDescription", editTextDescription.getText().toString());
+        editor.putBoolean("catIncome", rBtnAddCategoryIncome.isChecked());
+        editor.putBoolean("catExpense", rBtnAddCategoryExpense.isChecked());
+        editor.putString("catMessage", tvAddCategoryMessage.getText().toString());
+        editor.commit();
+
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        editTextDescription.setText(sharedPreferences.getString("catDescription", ""));
+        tvAddCategoryMessage.setText(sharedPreferences.getString("catMessage", ""));
+        if(sharedPreferences.contains("catIncome")){
+            rBtnAddCategoryIncome.setChecked(sharedPreferences.getBoolean("catIncome", false));
+        }
+        if(sharedPreferences.contains("catExpense")){
+            rBtnAddCategoryExpense.setChecked(sharedPreferences.getBoolean("catExpense", false));
+        }
+    }
+
+
 }

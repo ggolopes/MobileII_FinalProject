@@ -94,21 +94,16 @@ public class MainActivity extends AppCompatActivity {
         switch(item.getItemId()){
 
             case R.id.menu_currency:
-                Intent currencyIntent = new Intent(this, CurrencyRatesActivity.class);
-                startActivity(currencyIntent);
+                ShowCurrencyActivity();
                 break;
             case R.id.menu_statement:
-                Intent AllTransactionsIntent = new Intent(this, AllTransactionsActivity.class);
-                AllTransactionsIntent.putExtra("UserId", ("" + userId));
-                startActivity(AllTransactionsIntent);
+                ShowAllStatmentsActivity();
                 break;
             case R.id.menu_addTransaction:
-                Intent addTransactionIntent = new Intent(this, AddTransactionActivity.class);
-                addTransactionIntent.putExtra("UserId", ("" + userId));
-                startActivity(addTransactionIntent);
+                ShowAddTransactionActivity();
                 break;
             case R.id.menu_addCategory:
-                startActivity(new Intent(getApplicationContext(), AddCategoryActivity.class));
+                ShowAddCategoryActivity();
                 break;
             case R.id.menu_settings:
                 //startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
@@ -119,6 +114,27 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private void ShowAddCategoryActivity() {
+        startActivity(new Intent(getApplicationContext(), AddCategoryActivity.class));
+    }
+
+    private void ShowAddTransactionActivity() {
+        Intent addTransactionIntent = new Intent(this, AddTransactionActivity.class);
+        addTransactionIntent.putExtra("UserId", ("" + userId));
+        startActivity(addTransactionIntent);
+    }
+
+    private void ShowAllStatmentsActivity() {
+        Intent AllTransactionsIntent = new Intent(this, AllTransactionsActivity.class);
+        AllTransactionsIntent.putExtra("UserId", ("" + userId));
+        startActivity(AllTransactionsIntent);
+    }
+
+    private void ShowCurrencyActivity() {
+        Intent currencyIntent = new Intent(this, CurrencyRatesActivity.class);
+        startActivity(currencyIntent);
+    }
+
     @Override
     protected void onStop() {
         startService(new Intent(getApplicationContext(), NotificationService.class));
@@ -126,5 +142,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void DoShowAddTransactionActivity(View view) {
+        ShowAddTransactionActivity();
+    }
+
+    public void DoShowAllStatmentsActivity(View view) {
+        ShowAllStatmentsActivity();
+    }
+
+    public void DoShowCurrencyActivity(View view) {
+        ShowCurrencyActivity();
+    }
 }
 

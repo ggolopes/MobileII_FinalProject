@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,8 @@ public class AddTransactionActivity extends AppCompatActivity implements Adapter
     private CalendarView calendarViewAddTransacDate;
     private TextView tvAddTransacMessage;
     private Button btnAddTransaction;
+    private SharedPreferences sharedPreferences;
+
 
 
     @Override
@@ -47,6 +50,8 @@ public class AddTransactionActivity extends AppCompatActivity implements Adapter
         }
         String user = getIntent().getStringExtra("UserId");
         userId = Integer.valueOf(getIntent().getStringExtra("UserId"));
+
+        sharedPreferences = getSharedPreferences("LastInput", MODE_PRIVATE);
 
         rBtnAddTransacIncome = findViewById(R.id.rBtnAddTransacIncome);
         rBtnAddTransacExpense = findViewById(R.id.rBtnAddTransacExpense);
@@ -77,6 +82,7 @@ public class AddTransactionActivity extends AppCompatActivity implements Adapter
 
         if(item.getItemId() == android.R.id.home){
             //go back to your activity / exiting the SettingsActivity
+            ClearFieldsAddTransaction();
             onBackPressed();
         }
         return true;
@@ -111,8 +117,21 @@ public class AddTransactionActivity extends AppCompatActivity implements Adapter
                     Double.parseDouble(editTextAddTransacValue.getText().toString())
                     );
             Toast.makeText(this, "The transaction was added to the database.", Toast.LENGTH_SHORT).show();
+            ClearFieldsAddTransaction();
             finish();
         }
+    }
+
+    private void ClearFieldsAddTransaction() {
+        calendarViewAddTransacDate.setDate((System.currentTimeMillis()));
+        calendarDate = calendarViewAddTransacDate.getDate();
+        editTextAddTransacDescription.setText("");
+        editTextAddTransacValue.setText("");
+        categories = ((MyMoneyTrackerApp)getApplication()).GetCategoriesByType(""); // ==> All Categories
+        spinnerCategory.setAdapter(new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, categories));
+        rBtnAddTransacIncome.setChecked(false);
+        rBtnAddTransacExpense.setChecked(false);
+        tvAddTransacMessage.setText("");
     }
 
     @Override
@@ -123,5 +142,46 @@ public class AddTransactionActivity extends AppCompatActivity implements Adapter
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         categoryName = "";
+    }
+
+
+    @Override
+    protected void onPause() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("AddTransacDate", (""+calendarDate));
+        editor.putString("AddTransacDescription", editTextAddTransacDescription.getText().toString());
+        editor.putString("AddTransacValue", editTextAddTransacValue.getText().toString());
+        editor.putString("AddTransacCategory", categoryName);
+        editor.putBoolean("AddTransacIncome", rBtnAddTransacIncome.isChecked());
+        editor.putBoolean("AddTransacExpense", rBtnAddTransacExpense.isChecked());
+        editor.putString("AddTransacMessage", tvAddTransacMessage.getText().toString());
+        editor.commit();
+
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if (sharedPreferences.contains("AddTransacDate")){
+            calendarDate = Long.parseLong(sharedPreferences.getString("AddTransacDate","0"));
+            calendarViewAddTransacDate.setDate(calendarDate);
+        }
+        editTextAddTransacValue.setText(sharedPreferences.getString("AddTransacValue", ""));
+        categoryName = sharedPreferences.getString("AddTransacCategory", "");
+        rBtnAddTransacIncome.setChecked(sharedPreferences.getBoolean("AddTransacIncome", false));
+        rBtnAddTransacExpense.setChecked(sharedPreferences.getBoolean("AddTransacExpense", false));
+
+        if(rBtnAddTransacIncome.isChecked()){ // Type = 1 ==> INCOME
+            categories = ((MyMoneyTrackerApp)getApplication()).GetCategoriesByType("I"); // ==> INCOME
+            spinnerCategory.setAdapter(new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, categories));
+        } else { // Type = 2 ==> EXPENSE
+            categories = ((MyMoneyTrackerApp)getApplication()).GetCategoriesByType("E"); // ==> EXPENSE
+            spinnerCategory.setAdapter(new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, categories));
+        }
+        spinnerCategory.setSelection(((ArrayAdapter<String>)spinnerCategory.getAdapter()).getPosition(categoryName));
+        tvAddTransacMessage.setText(sharedPreferences.getString("AddTransacMessage", ""));
     }
 }
