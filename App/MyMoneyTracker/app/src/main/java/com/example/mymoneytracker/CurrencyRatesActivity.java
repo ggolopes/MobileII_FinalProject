@@ -262,19 +262,19 @@ public class CurrencyRatesActivity extends AppCompatActivity {
                     result = "1.00 ₹ = " + String.format("%.4f", (1/usINR)) + " US$";
                 } else if (rBtnToBRL.isChecked()){//            To BRL
                     result = "1.00 ₹ = " + String.format("%.4f", (usBRL/usINR)) + " R$";
-                } else if (rBtnToINR.isChecked()){//            To CAD
+                } else if (rBtnToCAD.isChecked()){//            To CAD
                     result = "1.00 ₹ = " + String.format("%.4f", (usCAD/usINR)) + " CAD$";
                 } else if (rBtnToCNY.isChecked()){//            To CNY
                     result = "1.00 ₹ = " + String.format("%.4f", (usCNY/usINR)) + " ¥";
                 }
-            } else if (rBtnFromINR.isChecked()){ //        From CNY
+            } else if (rBtnFromCNY.isChecked()){ //        From CNY
                 if (rBtnToUSD.isChecked()) { //                 To USD
                     result = "1.00 ¥ = " + String.format("%.4f", (1/usCNY)) + " US$";
                 } else if (rBtnToBRL.isChecked()){//            To BRL
                     result = "1.00 ¥ = " + String.format("%.4f", (usBRL/usCNY)) + " R$";
-                } else if (rBtnToINR.isChecked()){//            To CAD
+                } else if (rBtnToCAD.isChecked()){//            To CAD
                     result = "1.00 ¥ = " + String.format("%.4f", (usCAD/usCNY)) + " CAD$";
-                } else if (rBtnToCNY.isChecked()){//            To INR
+                } else if (rBtnToINR.isChecked()){//            To INR
                     result = "1.00 ¥ = " + String.format("%.4f", (usINR/usCNY)) + " ₹";
                 }
             }

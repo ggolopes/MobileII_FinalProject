@@ -46,13 +46,7 @@ public class MainActivity extends AppCompatActivity {
         tvUserNameMain = findViewById(R.id.tvUserNameMain);
 
         tvUserNameMain.setText(userName);
-        balIncome = ((MyMoneyTrackerApp)getApplication()).GetIncomeBalance(userId);
-        balExpense = ((MyMoneyTrackerApp)getApplication()).GetExpenseBalance(userId);
-        balOverAll = balIncome - balExpense;
-
-        tvBalanceAmount.setText("" + balOverAll);
-        tvIncomeAmount.setText("" + balIncome);
-        tvExpenseAmount.setText("" + balExpense);
+        RefreshBalance();
 
 
         listLastTransacions = findViewById(R.id.lvLastTransactions);
@@ -72,6 +66,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void RefreshBalance() {
+        balIncome = ((MyMoneyTrackerApp)getApplication()).GetIncomeBalance(userId);
+        balExpense = ((MyMoneyTrackerApp)getApplication()).GetExpenseBalance(userId);
+        balOverAll = balIncome - balExpense;
+
+        tvBalanceAmount.setText("" + balOverAll);
+        tvIncomeAmount.setText("" + balIncome);
+        tvExpenseAmount.setText("" + balExpense);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         lvItems = ((MyMoneyTrackerApp)getApplication()).GetLastTenTransactions(userId);
         lvTransacAdapter = new LVItemTransactionAdapter(this, lvItems);
         listLastTransacions.setAdapter(lvTransacAdapter);
+        RefreshBalance();
     }
 
     @Override
@@ -106,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 ShowAddCategoryActivity();
                 break;
             case R.id.menu_settings:
-                //startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                 break;
             default:
                 break;
